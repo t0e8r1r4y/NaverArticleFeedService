@@ -1,6 +1,8 @@
 package com.myservice.domain.article.dto;
 
+import com.myservice.domain.article.entity.ApiComposedKey;
 import com.myservice.domain.article.entity.CafeArticle;
+import com.myservice.domain.article.util.CafeArticleItemParser;
 import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -19,23 +21,21 @@ public class CafeResultSaveDto {
   private String cafeName;
   private String cafeUrl;
 
-  public static CafeResultSaveDto of(final UUID userId, final String keyword, final String url,
-      final String title, final String link, final String description, final String cafeName,
-      final String cafeUrl) {
-    return new CafeResultSaveDto(userId, keyword, url, title, link, description, cafeName, cafeUrl);
+  public static CafeResultSaveDto of (final ApiComposedKey apiComposedKey,
+      final CafeArticleItemParser cafeArticleItemParser) {
+    return new CafeResultSaveDto(apiComposedKey, cafeArticleItemParser);
   }
 
-  private CafeResultSaveDto(final UUID userId, final String keyword, final String url,
-      final String title, final String link, final String description, final String cafeName,
-      final String cafeUrl) {
-    this.userId = userId;
-    this.keyword = keyword;
-    this.url = url;
-    this.title = title;
-    this.link = link;
-    this.description = description;
-    this.cafeName = cafeName;
-    this.cafeUrl = cafeUrl;
+  private CafeResultSaveDto(final ApiComposedKey apiComposedKey,
+      final CafeArticleItemParser cafeArticleItemParser) {
+    this.userId = apiComposedKey.getUserId();
+    this.keyword = apiComposedKey.getKeyword();
+    this.url = apiComposedKey.getUrl();
+    this.title = cafeArticleItemParser.getTitle();
+    this.link = cafeArticleItemParser.getLink();
+    this.description = cafeArticleItemParser.getDescriptions();
+    this.cafeName = cafeArticleItemParser.getCafeName();
+    this.cafeUrl = cafeArticleItemParser.getCafeUrl();
   }
 
   public CafeArticle toEntity(){

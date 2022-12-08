@@ -28,7 +28,7 @@ public class BlogResultSaveDto {
   }
 
   private BlogResultSaveDto(final ApiComposedKey apiComposedKey,
-      final BlogArticleItemParser blogArticleItemParser) {
+    final BlogArticleItemParser blogArticleItemParser) {
     this.userId = apiComposedKey.getUserId();
     this.keyword = apiComposedKey.getKeyword();
     this.url = apiComposedKey.getUrl();
