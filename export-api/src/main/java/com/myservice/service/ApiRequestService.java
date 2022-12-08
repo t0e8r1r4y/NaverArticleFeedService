@@ -6,6 +6,7 @@ import com.myservice.domain.api.dto.ApiResponseSaveDto;
 import com.myservice.domain.api.repository.ApiResponseRepository;
 import com.myservice.domain.article.dto.BlogResultSaveDto;
 import com.myservice.domain.article.repository.BlogArticleRepository;
+import com.myservice.service.util.BlogArticleItemParser;
 import com.myservice.service.util.UrlMaker;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -71,27 +72,18 @@ public class ApiRequestService {
     Iterator<JSONObject> iter = item.iterator();
     while(iter.hasNext()) {
       JSONObject itemEach = (JSONObject) iter.next();
-      Map<String, String> map = parseBlogArticleItem(itemEach);
 
-      BlogResultSaveDto dto = BlogResultSaveDto.of(userId, keyword, url, map.get("title"), map.get("postdata"),
-          map.get("descrption"), map.get("link"), map.get("bloggerlink"), map.get("bloggername"));
+      BlogArticleItemParser.parser(itemEach);
 
-      blogArticleRepository.save(dto.toEntity());
-      blogList.add(dto);
+//      BlogResultSaveDto dto = BlogResultSaveDto.of(userId, keyword, url, map.get("title"), map.get("postdata"),
+//          map.get("descrption"), map.get("link"), map.get("bloggerlink"), map.get("bloggername"));
+//
+//      blogArticleRepository.save(dto.toEntity());
+//      blogList.add(dto);
     }
     return blogList.size();
   }
 
-  private Map<String, String> parseBlogArticleItem( JSONObject item ) {
-    Map<String, String> map = new HashMap<>();
-    map.put("link", (String) item.get("link"));
-    map.put("postdate", (String) item.get("postdate"));
-    map.put("description", (String) item.get("description"));
-    map.put("title", (String) item.get("title"));
-    map.put("bloggerlink", (String) item.get("bloggerlink"));
-    map.put("bloggername", (String) item.get("bloggername"));
-    return map;
-  }
 
   private List<ApiResponseSaveDto> getApiResponseSaveDtoList(UUID userId, String keyword, List<String> urlList) {
     List<ApiResponseSaveDto> responseList = new ArrayList<>();
