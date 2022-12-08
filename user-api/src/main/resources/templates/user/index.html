@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>SmartBlogger</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<h1>Hello SmartBlogger</h1>
+<div class="col-md-12">
+  <!-- 로그인 영역 -->
+  <div class="row">
+    <div th:if="${user}" class="col-md-6">
+      Logged in as: <span th:text="${user.name}"/>
+      <br/>
+      <span th:text="${user.email}"/>
+      <br/>
+      <img th:src="${user.picture}"/>
+      <br/>
+      <a href="/logout" class="btn btn-info active" role="button">Logout</a>
+      <a href="/keyword/view/add" class="btn btn-info active" role="button">키워드 등록하러가기</a>
+    </div>
+    <div th:unless="${user}" class="col-md-6">
+      <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

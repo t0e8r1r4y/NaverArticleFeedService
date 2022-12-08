@@ -1,0 +1,8 @@
+rootProject.name = 'myservice'
+include 'core'
+include 'batch'
+include 'export-api'
+include 'worker'
+include 'feed-maker'
+include 'user-api'
+

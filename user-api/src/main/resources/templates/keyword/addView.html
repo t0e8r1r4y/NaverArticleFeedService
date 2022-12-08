@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>SmartBlogger</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<h1>키워드 추가하기</h1>
+<div th:if="${user}" class="col-md-6">
+  Logged in as: <span th:text="${user.name}"/>
+  <br/>
+  <span th:text="${user.email}"/>
+  <br/>
+  <img th:src="${user.picture}"/>
+  <br/>
+  <a href="/logout" class="btn btn-info active" role="button">Logout</a>
+</div>
+<h3>등록된 키워드 목록</h3>
+<div th:text="${keyWordAddRequest.userKeyWordList}" />
+
+<h3>키워드 새로 등록하기</h3>
+<div>
+  <form th:action="@{/keyword/add}" th:method="post" th:object="${keyWordAddRequest}">
+    <input type="text" th:field="*{userKeyWordList}" />
+    <button type="submit" th:text="|키워드 등록|"/>
+  </form>
+</div>
+</body>
+</html>

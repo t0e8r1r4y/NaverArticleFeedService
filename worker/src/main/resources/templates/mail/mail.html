@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div>
+  <p> 안녕하세요.<span th:text="${name}"></span> 님 </p>
+  <h2 th:text="${message}"> 관련 블로그 포스팅을 추천합니다. </h2>
+  <table border="1">
+    <tr>
+      <th style="width 150px;">Title</th>
+      <th style="width 150px;">description</th>
+      <th style="width 170px;">link</th>
+    </tr>
+    <tr th:each="blog : ${blogList}" align="center">
+      <td th:text="${blog.title}"></td>
+      <td th:text="${blog.description}"></td>
+      <td th:text="${blog.link}"></td>
+    </tr>
+  </table>
+  <br/>
+  <h2 th:text="${message2}"> 관련 카페 포스팅을 추천합니다. </h2>
+  <table border="1">
+    <tr>
+      <th style="width 150px;">Title</th>
+      <th style="width 150px;">description</th>
+      <th style="width 170px;">link</th>
+    </tr>
+    <tr th:each="cafe : ${CafeList}" align="center">
+      <td th:text="${cafe.title}"></td>
+      <td th:text="${cafe.description}"></td>
+      <td th:text="${cafe.link}"></td>
+    </tr>
+  </table>
+  <br/>
+  <h2 th:text="${message3}"> 관련 뉴스를 추천합니다. </h2>
+  <table border="1">
+    <tr>
+      <th style="width 150px;">Title</th>
+      <th style="width 150px;">description</th>
+      <th style="width 170px;">link</th>
+    </tr>
+    <tr th:each="news : ${NewsList}" align="center">
+      <td th:text="${news.title}"></td>
+      <td th:text="${news.description}"></td>
+      <td th:text="${news.link}"></td>
+    </tr>
+  </table>
+  <br/>
+</div>
+</body>
+</html>
