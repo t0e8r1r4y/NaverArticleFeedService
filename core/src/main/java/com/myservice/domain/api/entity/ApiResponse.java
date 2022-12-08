@@ -33,7 +33,7 @@ public class ApiResponse extends BaseEntity {
 
   private ApiResponse( final String keyword, final UUID userId ,final String lastBuildDate,
       final Long total, final String requestUrl) {
-    this.id = new ComposedKey(keyword, userId);
+    this.id = new ComposedKey(userId, keyword);
     this.lastBuildDate = lastBuildDate;
     this.total = total;
     this.requestUrl = requestUrl;

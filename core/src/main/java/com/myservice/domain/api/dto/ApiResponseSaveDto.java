@@ -1,6 +1,8 @@
 package com.myservice.domain.api.dto;
 
 import com.myservice.domain.api.entity.ApiResponse;
+import com.myservice.domain.api.entity.ComposedKey;
+import com.myservice.domain.api.util.ApiResponseParser;
 import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -17,18 +19,21 @@ public class ApiResponseSaveDto {
   private String requestUrl;
   private JSONArray item;
 
-  public static ApiResponseSaveDto of(final UUID userId ,final String keyword, final String lastBuildDate, final Long total, final String requestUrl,
-      final JSONArray item) {
-    return new ApiResponseSaveDto( userId ,keyword, lastBuildDate, total, requestUrl, item);
+  public static ApiResponseSaveDto of(final ComposedKey composedKey , final String url,
+      final ApiResponseParser apiResponseParser) {
+    return new ApiResponseSaveDto( composedKey, url, apiResponseParser );
   }
-  private ApiResponseSaveDto(final UUID userId, final String keyword, final String lastBuildDate, final Long total, final String requestUrl,
-      final JSONArray item) {
-    this.userId = userId;
-    this.keyword = keyword;
-    this.lastBuildDate = lastBuildDate;
-    this.total = total;
-    this.requestUrl = requestUrl;
-    this.item = item;
+  private ApiResponseSaveDto(final ComposedKey composedKey , final String url,
+      final ApiResponseParser apiResponseParser) {
+
+    this.userId = composedKey.getUserId();
+    this.keyword = composedKey.getKeyword();
+
+    this.lastBuildDate = apiResponseParser.getLastBuildDateChanel();
+    this.total = apiResponseParser.getTotalChanel();
+    this.item = apiResponseParser.getItem();
+
+    this.requestUrl = url;
   }
 
   public ApiResponse toEntity(){
