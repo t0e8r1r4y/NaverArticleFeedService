@@ -4,10 +4,12 @@ import java.io.Serializable;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Embeddable
 @NoArgsConstructor
+@Getter
 public class ApiComposedKey implements Serializable {
 
   @Column(columnDefinition = "BINARY(16)", nullable = false, name = "USER_ID")

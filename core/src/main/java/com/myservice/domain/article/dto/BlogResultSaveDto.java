@@ -1,6 +1,8 @@
 package com.myservice.domain.article.dto;
 
+import com.myservice.domain.article.entity.ApiComposedKey;
 import com.myservice.domain.article.entity.BlogArticle;
+import com.myservice.domain.article.util.BlogArticleItemParser;
 import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,24 +22,22 @@ public class BlogResultSaveDto {
   private String bloggerLink;
   private String bloggerName;
 
-  public static BlogResultSaveDto of(final UUID userId, final String keyword, final String url,
-      final String title, final String postdate, final String description, final String link,
-      final String bloggerLink, final String bloggerName) {
-    return new BlogResultSaveDto(userId, keyword, url, title, postdate, description, link, bloggerLink, bloggerName);
+  public static BlogResultSaveDto of(final ApiComposedKey apiComposedKey,
+      final BlogArticleItemParser blogArticleItemParser) {
+    return new BlogResultSaveDto(apiComposedKey, blogArticleItemParser);
   }
 
-  private BlogResultSaveDto(final UUID userId,final String keyword, final String url,
-      final String title, final String postdate, final String description, final String link,
-      final String bloggerLink, final String bloggerName) {
-    this.userId = userId;
-    this.keyword = keyword;
-    this.url = url;
-    this.title = title;
-    this.postdate = postdate;
-    this.description = description;
-    this.link = link;
-    this.bloggerLink = bloggerLink;
-    this.bloggerName = bloggerName;
+  private BlogResultSaveDto(final ApiComposedKey apiComposedKey,
+      final BlogArticleItemParser blogArticleItemParser) {
+    this.userId = apiComposedKey.getUserId();
+    this.keyword = apiComposedKey.getKeyword();
+    this.url = apiComposedKey.getUrl();
+    this.title = blogArticleItemParser.getTitle();
+    this.postdate = blogArticleItemParser.getPostdate();
+    this.description = blogArticleItemParser.getDescription();
+    this.link = blogArticleItemParser.getLink();
+    this.bloggerLink = blogArticleItemParser.getBloggerlink();
+    this.bloggerName = blogArticleItemParser.getBloggername();
   }
 
   public BlogArticle toEntity(){

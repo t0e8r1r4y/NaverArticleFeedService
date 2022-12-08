@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,7 +19,8 @@ public class ComposedKey implements Serializable {
   @Column(name = "USER_KEYWORD", nullable = false)
   private String keyword;
 
-  public ComposedKey(String keyword, UUID userId) {
+  @Builder
+  public ComposedKey(UUID userId ,String keyword) {
     this.keyword = keyword;
     this.userId = userId;
   }

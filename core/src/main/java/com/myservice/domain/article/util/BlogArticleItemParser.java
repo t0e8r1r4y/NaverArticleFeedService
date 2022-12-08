@@ -1,7 +1,5 @@
-package com.myservice.service.util;
+package com.myservice.domain.article.util;
 
-import java.util.HashMap;
-import java.util.Map;
 import lombok.Getter;
 import org.json.simple.JSONObject;
 

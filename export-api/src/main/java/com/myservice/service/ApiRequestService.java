@@ -1,21 +1,18 @@
 package com.myservice.service;
 
 import com.myservice.component.NaverSearchApi;
-import com.myservice.config.BussinessException;
 import com.myservice.domain.api.dto.ApiResponseSaveDto;
+import com.myservice.domain.api.entity.ComposedKey;
 import com.myservice.domain.api.repository.ApiResponseRepository;
+import com.myservice.domain.api.util.ApiResponseParser;
 import com.myservice.domain.article.dto.BlogResultSaveDto;
+import com.myservice.domain.article.entity.ApiComposedKey;
 import com.myservice.domain.article.repository.BlogArticleRepository;
-import com.myservice.service.util.BlogArticleItemParser;
+import com.myservice.domain.article.util.BlogArticleItemParser;
 import com.myservice.service.util.UrlMaker;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,14 +45,13 @@ public class ApiRequestService {
   private final UrlMaker urlMaker;
 
   @Transactional
-  public int getBlogArticleSortBySim( UUID userId, String keyword,  int cnt){
+  public int getBlogArticleSortBySim( UUID userId, String keyword, int cnt){
     int articleType = TYPE_BLOG;
     boolean sortType = TYPE_SIM;
 
     List<String> urlList = urlMaker.getUrlList(keyword, articleType, sortType, cnt);
-
-
-    List<ApiResponseSaveDto> apiResponseSaveDtoList = getApiResponseSaveDtoList(userId, keyword, urlList);
+    List<ApiResponseSaveDto> apiResponseSaveDtoList
+        = getApiResponseSaveDtoList(new ComposedKey(userId, keyword), urlList);
 
     for(ApiResponseSaveDto dto : apiResponseSaveDtoList){
       getBlogResultList(userId, keyword, dto.getRequestUrl(), dto.getItem());
@@ -73,19 +69,17 @@ public class ApiRequestService {
     while(iter.hasNext()) {
       JSONObject itemEach = (JSONObject) iter.next();
 
-      BlogArticleItemParser.parser(itemEach);
+      BlogResultSaveDto dto = BlogResultSaveDto.of( new ApiComposedKey(userId, keyword, url),
+          BlogArticleItemParser.parser(itemEach));
 
-//      BlogResultSaveDto dto = BlogResultSaveDto.of(userId, keyword, url, map.get("title"), map.get("postdata"),
-//          map.get("descrption"), map.get("link"), map.get("bloggerlink"), map.get("bloggername"));
-//
-//      blogArticleRepository.save(dto.toEntity());
-//      blogList.add(dto);
+      blogArticleRepository.save(dto.toEntity());
+      blogList.add(dto);
     }
     return blogList.size();
   }
 
 
-  private List<ApiResponseSaveDto> getApiResponseSaveDtoList(UUID userId, String keyword, List<String> urlList) {
+  private List<ApiResponseSaveDto> getApiResponseSaveDtoList(ComposedKey composedKey, List<String> urlList) {
     List<ApiResponseSaveDto> responseList = new ArrayList<>();
     JSONParser parser = new JSONParser();
 
@@ -93,10 +87,7 @@ public class ApiRequestService {
       try {
         String response = naverSearchApi.search(url);
         JSONObject object = (JSONObject) parser.parse( response );
-        String lastBuildDateChanel = (String) object.get( "lastBuildDate" );
-        Long totalChanel = (Long) object.get( "total" );
-        JSONArray item = (JSONArray) object.get( "items" );
-        responseList.add(ApiResponseSaveDto.of(userId, keyword ,lastBuildDateChanel, totalChanel, url, item));
+        responseList.add(ApiResponseSaveDto.of(composedKey, url, ApiResponseParser.parser(object)));
       } catch (ParseException e) {
         log.info(e.getMessage());
       }
