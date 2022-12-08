@@ -56,6 +56,7 @@ public class ApiRequestService {
     for(ApiResponseSaveDto dto : apiResponseSaveDtoList){
       getBlogResultList(userId, keyword, dto.getRequestUrl(), dto.getItem());
       apiResponseRepository.save( dto.toEntity() );
+      log.info(dto.getUserId() + " " + dto.getKeyword() + " " + dto.getRequestUrl());
     }
 
     return apiResponseSaveDtoList.size();
@@ -74,6 +75,7 @@ public class ApiRequestService {
 
       blogArticleRepository.save(dto.toEntity());
       blogList.add(dto);
+      log.info(dto.getBloggerName() + " " +dto.getTitle());
     }
     return blogList.size();
   }

@@ -1,6 +1,8 @@
 package com.myservice.domain.article.dto;
 
+import com.myservice.domain.article.entity.ApiComposedKey;
 import com.myservice.domain.article.entity.NewsArticle;
+import com.myservice.domain.article.util.NewsArticleItemParser;
 import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -19,23 +21,21 @@ public class NewResultSaveDto {
   private String description;
   private String pubDate;
 
-  public NewResultSaveDto of(final UUID userId, final String keyword, final String url,
-      final String title, final String originalLink,
-      final String link, final String description, final String pubDate) {
-    return new NewResultSaveDto(userId, keyword, url,title, originalLink, link, description, pubDate);
+  public NewResultSaveDto of(final ApiComposedKey apiComposedKey,
+      final NewsArticleItemParser newsArticleItemParser) {
+    return new NewResultSaveDto(apiComposedKey, newsArticleItemParser);
   }
 
-  private NewResultSaveDto(final UUID userId, final String keyword, final String url,
-      final String title, final String originalLink,
-      final String link, final String description, final String pubDate) {
-    this.userId = userId;
-    this.keyword = keyword;
-    this.url = url;
-    this.title = title;
-    this.originalLink = originalLink;
-    this.link = link;
-    this.description = description;
-    this.pubDate = pubDate;
+  private NewResultSaveDto(final ApiComposedKey apiComposedKey,
+      final NewsArticleItemParser newsArticleItemParser) {
+    this.userId = apiComposedKey.getUserId();
+    this.keyword = apiComposedKey.getKeyword();
+    this.url = apiComposedKey.getUrl();
+    this.title = newsArticleItemParser.getTitle();
+    this.originalLink = newsArticleItemParser.getOriginallink();
+    this.link = newsArticleItemParser.getLink();
+    this.description = newsArticleItemParser.getDescription();
+    this.pubDate = newsArticleItemParser.getPubDate();
   }
 
   public NewsArticle toEntity(){

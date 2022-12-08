@@ -6,7 +6,9 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@Component
 @NoArgsConstructor
 public class UrlMaker {
   private final static int TYPE_BLOG = 1;
