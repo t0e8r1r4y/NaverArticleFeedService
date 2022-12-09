@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @DisplayName("UrlList 일급 컬렉션 테스트")
@@ -56,5 +58,21 @@ class UrlListTest {
 
     String errorMessage = illegalArgumentException.getMessage();
     assertEquals("아티클 타입은 블로그(1), 뉴스(2), 카페(3), 도큐먼트(4)만 가능합니다.", errorMessage);
+  }
+
+  @DisplayName("Url 내용 검증")
+  @ParameterizedTest(name = "{index} {displayName} message={0}")
+  @CsvSource({"1,true,1,'https://openapi.naver.com/v1/search/blog.json?query=','sort=sim', 1",
+      "2,false,2, 'https://openapi.naver.com/v1/search/news.json?query=', 'sort=date', 2",
+      "3,true,3, 'https://openapi.naver.com/v1/search/cafearticle.json?query=', 'sort=sim', 3",
+      "4,false,4, 'https://openapi.naver.com/v1/search/webkr.json?query=', 'sort=date', 4"})
+  void 일급컬렉션_내용_검증(Integer articleType, boolean sortType, Integer cnt,
+                      String res1, String res2, Integer res3){
+    UrlList urlList = new UrlList("슈룹", articleType, sortType, cnt);
+    for(String s : urlList.getUrlList()){
+      assertTrue(s.contains(res1));
+      assertTrue(s.contains(res2));
+    }
+    assertThat(urlList.getUrlList().size()).isEqualTo(res3);
   }
 }
