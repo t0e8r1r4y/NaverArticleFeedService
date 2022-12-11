@@ -83,16 +83,10 @@ public class ApiRequestService {
 
   private List<ApiResponseSaveDto> getApiResponseSaveDtoList(ComposedKey composedKey, List<String> urlList) {
     List<ApiResponseSaveDto> responseList = new ArrayList<>();
-    JSONParser parser = new JSONParser();
 
     for(String url : urlList) {
-      try {
-        String response = naverSearchApi.search(url);
-        JSONObject object = (JSONObject) parser.parse( response );
-        responseList.add(ApiResponseSaveDto.of(composedKey, url, ApiResponseParser.parser(object)));
-      } catch (ParseException e) {
-        log.info(e.getMessage());
-      }
+      String response = naverSearchApi.search(url);
+      responseList.add(ApiResponseSaveDto.of(composedKey, url, ApiResponseParser.parser(response)));
     }
 
     return responseList;
