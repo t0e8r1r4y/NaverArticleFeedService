@@ -9,6 +9,7 @@ import com.myservice.domain.article.dto.BlogResultSaveDto;
 import com.myservice.domain.article.entity.ApiComposedKey;
 import com.myservice.domain.article.repository.BlogArticleRepository;
 import com.myservice.domain.article.util.BlogArticleItemParser;
+import com.myservice.service.util.UrlList;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -46,17 +47,19 @@ public class ApiRequestService {
     int articleType = TYPE_BLOG;
     boolean sortType = TYPE_SIM;
 
-//    List<String> urlList = urlMaker.getUrlList(keyword, articleType, sortType, cnt);
-//    List<ApiResponseSaveDto> apiResponseSaveDtoList
-//        = getApiResponseSaveDtoList(new ComposedKey(userId, keyword), urlList);
-//
-//    for(ApiResponseSaveDto dto : apiResponseSaveDtoList){
-//      getBlogResultList(userId, keyword, dto.getRequestUrl(), dto.getItem());
-//      apiResponseRepository.save( dto.toEntity() );
-//      log.info(dto.getUserId() + " " + dto.getKeyword() + " " + dto.getRequestUrl());
-//    }
+    UrlList firstCollectionUrl = new UrlList(keyword, articleType, sortType, cnt);
+    List<String> urlList = firstCollectionUrl.getUrlList();
 
-    return 1; //apiResponseSaveDtoList.size();
+    List<ApiResponseSaveDto> apiResponseSaveDtoList
+        = getApiResponseSaveDtoList(new ComposedKey(userId, keyword), urlList);
+
+    for(ApiResponseSaveDto dto : apiResponseSaveDtoList){
+      getBlogResultList(userId, keyword, dto.getRequestUrl(), dto.getItem());
+      apiResponseRepository.save( dto.toEntity() );
+      log.info(dto.getUserId() + " " + dto.getKeyword() + " " + dto.getRequestUrl());
+    }
+
+    return apiResponseSaveDtoList.size();
   }
 
   @Transactional
