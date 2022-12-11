@@ -1,12 +1,14 @@
 package com.myservice.domain.api.util;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 @Getter
+@Slf4j
 public class ApiResponseParser {
   private String lastBuildDateChanel;
   private Long totalChanel;
@@ -14,11 +16,12 @@ public class ApiResponseParser {
 
   public static ApiResponseParser parser(String apiResponse){
     JSONParser parser = new JSONParser();
-    JSONObject object = null;
+    JSONObject object;
     try {
       object = (JSONObject) parser.parse( apiResponse );
       return new ApiResponseParser(object);
     } catch (ParseException e) {
+      log.error(e.getMessage());
       return null;
     }
   }

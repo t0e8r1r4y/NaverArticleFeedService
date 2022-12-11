@@ -1,5 +1,6 @@
 package com.myservice.domain.api.util;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.json.simple.JSONArray;
@@ -24,5 +25,27 @@ class ApiResponseParserTest {
     assertEquals(JSONArray.class, apiResponseParser.getItem().getClass());
   }
 
+  @Test
+  @DisplayName("API 응답 파싱 테스트 실패 - 입력값 null")
+  void API응답_파싱_실패_테스트() {
+    String response = "{}";
+    ApiResponseParser apiResponseParser = ApiResponseParser.parser(response);
+    assertEquals(apiResponseParser, null);
+  }
+
+  @Test
+  @DisplayName("API 응답 파싱 테스트 실패")
+  void API응답_파싱_실패_테스트2() {
+    String response = "{\t\"lastBuildDate\":\"Sat, 10 Dec 2022 00:43:55 +0900\"}";
+    String expectLastBuildData = "Sat, 10 Dec 2022 00:43:55 +0900";
+    ApiResponseParser apiResponseParser = ApiResponseParser.parser(response);
+    // 일부만 있을 경우에는 아래와 같이 일부만 파싱 됨
+    // Sat, 10 Dec 2022 00:43:55 +0900
+    // null
+    // null
+    assertThat(apiResponseParser.getLastBuildDateChanel()).isEqualTo(expectLastBuildData);
+    assertNull(apiResponseParser.getTotalChanel());
+    assertNull(apiResponseParser.getItem());
+  }
 
 }
