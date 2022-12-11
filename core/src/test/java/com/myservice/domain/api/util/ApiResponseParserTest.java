@@ -41,10 +41,10 @@ class ApiResponseParserTest {
     ApiResponseParser apiResponseParser = ApiResponseParser.parser(response);
     // 일부만 있을 경우에는 아래와 같이 일부만 파싱 됨
     // Sat, 10 Dec 2022 00:43:55 +0900
-    // null
+    // -1
     // null
     assertThat(apiResponseParser.getLastBuildDateChanel()).isEqualTo(expectLastBuildData);
-    assertNull(apiResponseParser.getTotalChanel());
+    assertThat(apiResponseParser.getTotalChanel()).isEqualTo(-1);
     assertNull(apiResponseParser.getItem());
   }
 
