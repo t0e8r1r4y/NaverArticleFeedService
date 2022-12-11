@@ -19,10 +19,15 @@ public class ComposedKey implements Serializable {
   @Column(name = "USER_KEYWORD", nullable = false)
   private String keyword;
 
+  @Column(name = "USER_REQUEST_URL", nullable = false)
+  private String requestUrl;
+
+
   @Builder
-  public ComposedKey(UUID userId ,String keyword) {
+  public ComposedKey(UUID userId ,String keyword, String requestUrl) {
     this.keyword = keyword;
     this.userId = userId;
+    this.requestUrl = requestUrl;
   }
 
   @Override
@@ -39,13 +44,17 @@ public class ComposedKey implements Serializable {
     if (!userId.equals(that.userId)) {
       return false;
     }
-    return keyword.equals(that.keyword);
+    if (!keyword.equals(that.keyword)) {
+      return false;
+    }
+    return requestUrl.equals(that.requestUrl);
   }
 
   @Override
   public int hashCode() {
     int result = userId.hashCode();
     result = 31 * result + keyword.hashCode();
+    result = 31 * result + requestUrl.hashCode();
     return result;
   }
 }

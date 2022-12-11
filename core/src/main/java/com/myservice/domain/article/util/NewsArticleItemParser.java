@@ -1,5 +1,6 @@
 package com.myservice.domain.article.util;
 
+import java.util.Optional;
 import lombok.Getter;
 import org.json.simple.JSONObject;
 
@@ -16,10 +17,19 @@ public class NewsArticleItemParser {
   }
 
   private NewsArticleItemParser(JSONObject item) {
-    this.title = (String) item.get("title");
-    this.originallink = (String) item.get("originallink");
-    this.link = (String) item.get("link");
-    this.description = (String) item.get("description");
-    this.pubDate = (String) item.get("pubDate");
+    Optional<String> titleOption = Optional.ofNullable((String) item.get("title"));
+    this.title = titleOption.orElse("");
+
+    Optional<String> originallinkOption = Optional.ofNullable((String) item.get("originallink"));
+    this.originallink = originallinkOption.orElse("");
+
+    Optional<String> linkOption = Optional.ofNullable((String) item.get("link"));
+    this.link = linkOption.orElse("");
+
+    Optional<String> descriptionOption = Optional.ofNullable((String) item.get("description"));
+    this.description = descriptionOption.orElse("");
+
+    Optional<String> pubDateOption = Optional.ofNullable((String) item.get("pubDate"));
+    this.pubDate = pubDateOption.orElse("");
   }
 }

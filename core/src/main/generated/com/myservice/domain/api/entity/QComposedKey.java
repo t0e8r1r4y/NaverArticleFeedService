@@ -21,6 +21,8 @@ public class QComposedKey extends BeanPath<ComposedKey> {
 
     public final StringPath keyword = createString("keyword");
 
+    public final StringPath requestUrl = createString("requestUrl");
+
     public final ComparablePath<java.util.UUID> userId = createComparable("userId", java.util.UUID.class);
 
     public QComposedKey(String variable) {
