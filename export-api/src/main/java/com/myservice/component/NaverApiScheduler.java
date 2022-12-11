@@ -15,7 +15,7 @@ public class NaverApiScheduler {
   private final ApiRequestService apiRequestService;
   // @Scheduled( cron = "0 */1 * * * *")
   // @Scheduled( cron = "0 */59 * * * *")
-  @Scheduled(fixedRate = 20000)
+  @Scheduled(fixedRate = 10000)
   public void scheduler() {
     UUID userId = UUID.randomUUID();
     String keyword = "슈룹";

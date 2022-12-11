@@ -34,8 +34,6 @@ public class QApiResponse extends EntityPathBase<ApiResponse> {
 
     public final StringPath lastBuildDate = createString("lastBuildDate");
 
-    public final StringPath requestUrl = createString("requestUrl");
-
     public final NumberPath<Long> total = createNumber("total", Long.class);
 
     //inherited

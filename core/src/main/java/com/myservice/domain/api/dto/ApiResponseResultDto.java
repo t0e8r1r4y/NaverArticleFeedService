@@ -22,6 +22,6 @@ public class ApiResponseResultDto {
     this.keyword = apiResponse.getId().getKeyword();
     this.lastBuildDate = apiResponse.getLastBuildDate();
     this.total = apiResponse.getTotal();
-    this.requestUrl = apiResponse.getRequestUrl();
+    this.requestUrl = apiResponse.getId().getRequestUrl();
   }
 }

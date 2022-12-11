@@ -19,21 +19,20 @@ public class ApiResponseSaveDto {
   private String requestUrl;
   private JSONArray item;
 
-  public static ApiResponseSaveDto of(final ComposedKey composedKey , final String url,
+  public static ApiResponseSaveDto of(final ComposedKey composedKey,
       final ApiResponseParser apiResponseParser) {
-    return new ApiResponseSaveDto( composedKey, url, apiResponseParser );
+    return new ApiResponseSaveDto( composedKey, apiResponseParser );
   }
-  private ApiResponseSaveDto(final ComposedKey composedKey , final String url,
+  private ApiResponseSaveDto(final ComposedKey composedKey,
       final ApiResponseParser apiResponseParser) {
 
     this.userId = composedKey.getUserId();
     this.keyword = composedKey.getKeyword();
+    this.requestUrl = composedKey.getRequestUrl();
 
     this.lastBuildDate = apiResponseParser.getLastBuildDateChanel();
     this.total = apiResponseParser.getTotalChanel();
     this.item = apiResponseParser.getItem();
-
-    this.requestUrl = url;
   }
 
   public ApiResponse toEntity(){

@@ -23,20 +23,16 @@ public class ApiResponse extends BaseEntity {
   @Column(length = 256)
   private Long total;
 
-  @Column(length = 1024, nullable = false)
-  private String requestUrl;
-
-  public static ApiResponse of( final String keyword, final UUID userId ,final String lastBuildDate,
-      final Long total, final String requestUrl) {
+  public static ApiResponse of( final String keyword, final UUID userId ,
+      final String lastBuildDate, final Long total, final String requestUrl) {
     return new ApiResponse( keyword, userId ,lastBuildDate, total, requestUrl);
   }
 
   private ApiResponse( final String keyword, final UUID userId ,final String lastBuildDate,
       final Long total, final String requestUrl) {
-    this.id = new ComposedKey(userId, keyword);
+    this.id = new ComposedKey(userId, keyword, requestUrl);
     this.lastBuildDate = lastBuildDate;
     this.total = total;
-    this.requestUrl = requestUrl;
 
     this.createdBy = userId;
     this.updatedBy = userId;
