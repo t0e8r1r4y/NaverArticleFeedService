@@ -27,6 +27,8 @@ public class NewsArticleService {
     List<NewsResultSaveDto> newsList = new ArrayList<>();
 
     Iterator<JSONObject> iter = newsItem.iterator();
+    if(iter == null) return 0;
+
     while(iter.hasNext()){
       JSONObject itemEach = iter.next();
       NewsResultSaveDto dto = NewsResultSaveDto.of(apiComposedKey,

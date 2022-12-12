@@ -33,7 +33,7 @@ public class UrlList {
   }
 
   private boolean isValideArticleType(ArticleType articleType){
-    return (articleType == BLOG && articleType == CAFE && articleType == NEWS);
+    return (articleType == BLOG || articleType == CAFE || articleType == NEWS);
   }
 
   private boolean isValidCnt(int cnt){

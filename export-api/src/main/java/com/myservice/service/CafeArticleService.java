@@ -26,6 +26,8 @@ public class CafeArticleService {
     List<CafeResultSaveDto> cafeList = new ArrayList<>();
 
     Iterator<JSONObject> iter = cafeItem.iterator();
+    if(iter == null) return 0;
+
     while(iter.hasNext()){
       JSONObject itemEach = iter.next();
       CafeResultSaveDto dto = CafeResultSaveDto.of(apiComposedKey,

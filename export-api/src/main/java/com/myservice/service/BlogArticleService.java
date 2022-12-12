@@ -28,6 +28,8 @@ public class BlogArticleService {
     List<BlogResultSaveDto> blogList = new ArrayList<>();
 
     Iterator<JSONObject> iter = blogItem.iterator();
+    if(iter == null) return 0;
+
     while(iter.hasNext()) {
       JSONObject itemEach = iter.next();
       BlogResultSaveDto dto = BlogResultSaveDto.of( apiComposedKey,
