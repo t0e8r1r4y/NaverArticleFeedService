@@ -1,4 +1,4 @@
-package com.myservice.service.util;
+package com.myservice.service;
 
 import com.myservice.domain.article.dto.NewsResultSaveDto;
 import com.myservice.domain.article.entity.ApiComposedKey;

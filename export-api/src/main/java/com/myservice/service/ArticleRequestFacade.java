@@ -6,6 +6,7 @@ import com.myservice.service.ApiResponseService;
 import com.myservice.service.util.UrlList;
 import java.util.List;
 import java.util.UUID;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,6 @@ public class ArticleRequestFacade {
   private final static int TYPE_BLOG = 1;
   private final static int TYPE_NEWS = 2;
   private final static int TYPE_CAFE = 3;
-  private final static int TYPE_DOC = 4;
 
   private final static boolean TYPE_SIM = true;
   private final static boolean TYPE_DATE = false;
@@ -52,5 +52,6 @@ public class ArticleRequestFacade {
       );
     }
   }
+
 
 }

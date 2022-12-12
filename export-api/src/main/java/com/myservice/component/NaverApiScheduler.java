@@ -1,6 +1,5 @@
 package com.myservice.component;
 
-import com.myservice.service.ApiResponseService;
 import com.myservice.service.ArticleRequestFacade;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
