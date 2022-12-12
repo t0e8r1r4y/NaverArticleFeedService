@@ -4,9 +4,7 @@ import static com.myservice.domain.article.entity.ArticleType.BLOG;
 import static com.myservice.domain.article.entity.ArticleType.CAFE;
 import static com.myservice.domain.article.entity.SortType.SIM;
 
-import com.myservice.domain.article.entity.ArticleType;
-import com.myservice.domain.article.entity.SortType;
-import com.myservice.service.ArticleRequestFacade;
+import com.myservice.service.api.facade.ArticleRequestFacade;
 import com.myservice.service.util.UrlConfig;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;

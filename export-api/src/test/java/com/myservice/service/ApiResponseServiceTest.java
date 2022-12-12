@@ -4,6 +4,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import com.myservice.domain.api.entity.ApiResponse;
 import com.myservice.domain.api.repository.ApiResponseRepository;
+import com.myservice.service.api.sub.ApiResponseService;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;

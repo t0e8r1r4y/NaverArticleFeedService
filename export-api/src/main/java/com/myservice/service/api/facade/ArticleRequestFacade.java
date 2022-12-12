@@ -1,8 +1,12 @@
-package com.myservice.service;
+package com.myservice.service.api.facade;
 
 import com.myservice.domain.api.dto.ApiResponseSaveDto;
 import com.myservice.domain.article.entity.ApiComposedKey;
 import com.myservice.domain.article.entity.ArticleType;
+import com.myservice.service.api.sub.ApiResponseService;
+import com.myservice.service.api.sub.BlogArticleService;
+import com.myservice.service.api.sub.CafeArticleService;
+import com.myservice.service.api.sub.NewsArticleService;
 import com.myservice.service.util.UrlConfig;
 import com.myservice.service.util.UrlList;
 import java.util.List;

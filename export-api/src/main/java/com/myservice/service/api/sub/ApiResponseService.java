@@ -1,4 +1,4 @@
-package com.myservice.service;
+package com.myservice.service.api.sub;
 
 import com.myservice.component.NaverSearchApi;
 import com.myservice.domain.api.dto.ApiResponseSaveDto;
