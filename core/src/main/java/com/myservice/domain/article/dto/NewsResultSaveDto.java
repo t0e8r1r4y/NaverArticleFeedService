@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class NewResultSaveDto {
+public class NewsResultSaveDto {
 
   private UUID userId;
   private String keyword;
@@ -21,12 +21,12 @@ public class NewResultSaveDto {
   private String description;
   private String pubDate;
 
-  public NewResultSaveDto of(final ApiComposedKey apiComposedKey,
+  public static NewsResultSaveDto of(final ApiComposedKey apiComposedKey,
       final NewsArticleItemParser newsArticleItemParser) {
-    return new NewResultSaveDto(apiComposedKey, newsArticleItemParser);
+    return new NewsResultSaveDto(apiComposedKey, newsArticleItemParser);
   }
 
-  private NewResultSaveDto(final ApiComposedKey apiComposedKey,
+  private NewsResultSaveDto(final ApiComposedKey apiComposedKey,
       final NewsArticleItemParser newsArticleItemParser) {
     this.userId = apiComposedKey.getUserId();
     this.keyword = apiComposedKey.getKeyword();

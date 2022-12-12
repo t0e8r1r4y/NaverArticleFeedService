@@ -19,6 +19,8 @@ public class QApiComposedKey extends BeanPath<ApiComposedKey> {
 
     public static final QApiComposedKey apiComposedKey = new QApiComposedKey("apiComposedKey");
 
+    public final ComparablePath<java.util.UUID> articleId = createComparable("articleId", java.util.UUID.class);
+
     public final StringPath keyword = createString("keyword");
 
     public final StringPath url = createString("url");
