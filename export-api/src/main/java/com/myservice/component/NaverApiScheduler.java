@@ -1,6 +1,7 @@
 package com.myservice.component;
 
 import com.myservice.service.ApiResponseService;
+import com.myservice.service.ArticleRequestFacade;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,13 +13,14 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class NaverApiScheduler {
 
-  private final ApiResponseService apiResponseService;
+  private final ArticleRequestFacade articleRequestFacade;
   // @Scheduled( cron = "0 */1 * * * *")
   // @Scheduled( cron = "0 */59 * * * *")
-  @Scheduled(fixedRate = 10000)
+  @Scheduled(fixedRate = 5000)
   public void scheduler() {
     UUID userId = UUID.randomUUID();
     String keyword = "슈룹";
+    articleRequestFacade.getBlogArticleSortBySim(userId,keyword,10);
   }
 
 }

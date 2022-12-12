@@ -1,6 +1,7 @@
 package com.myservice.service;
 
 import com.myservice.domain.api.dto.ApiResponseSaveDto;
+import com.myservice.domain.article.entity.ApiComposedKey;
 import com.myservice.service.ApiResponseService;
 import com.myservice.service.util.UrlList;
 import java.util.List;
@@ -34,17 +35,22 @@ public class ArticleRequestFacade {
    */
   public void getBlogArticleSortBySim(UUID userId, String keyword, int cnt) {
 
+    if(cnt > MAX_CNT) return;
+
     int articleType = TYPE_BLOG;
     boolean sortType = TYPE_SIM;
     UrlList firstCollectionUrl = new UrlList(keyword, articleType, sortType, cnt);
 
     List<String> urlList = firstCollectionUrl.getUrlList();
     List<ApiResponseSaveDto> dtoList = apiResponseService.getApiResponseSaveDtoList(userId, keyword, urlList);
-    int saveResult = apiResponseService.saveApiResponse(dtoList);
+    apiResponseService.saveApiResponse(dtoList);
 
-    if(dtoList.size() != saveResult) return;
-
-    return;
+    for(ApiResponseSaveDto dto : dtoList){
+      blogArticleService.saveBlogItemList(
+          new ApiComposedKey(dto.getUserId(), dto.getKeyword(), dto.getRequestUrl())
+          ,dto.getItem()
+      );
+    }
   }
 
 }

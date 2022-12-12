@@ -12,6 +12,9 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ApiComposedKey implements Serializable {
 
+  @Column(columnDefinition = "BINARY(16)", nullable = false, name = "API_ID")
+  private UUID articleId;
+
   @Column(columnDefinition = "BINARY(16)", nullable = false, name = "USER_ID")
   private UUID userId;
 
@@ -22,6 +25,7 @@ public class ApiComposedKey implements Serializable {
   private String url;
 
   public ApiComposedKey(UUID userId, String keyword, String url) {
+    this.articleId = UUID.randomUUID();
     this.userId = userId;
     this.keyword = keyword;
     this.url = url;
