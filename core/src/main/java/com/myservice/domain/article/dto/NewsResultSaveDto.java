@@ -21,7 +21,7 @@ public class NewsResultSaveDto {
   private String description;
   private String pubDate;
 
-  public NewsResultSaveDto of(final ApiComposedKey apiComposedKey,
+  public static NewsResultSaveDto of(final ApiComposedKey apiComposedKey,
       final NewsArticleItemParser newsArticleItemParser) {
     return new NewsResultSaveDto(apiComposedKey, newsArticleItemParser);
   }
