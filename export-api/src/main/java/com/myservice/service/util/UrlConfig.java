@@ -11,7 +11,7 @@ public class UrlConfig {
   private SortType sortType;
   private int page;
 
-  public UrlConfig of(final String keyword, final ArticleType articleType, final SortType sortType, final int page) {
+  public static UrlConfig of(final String keyword, final ArticleType articleType, final SortType sortType, final int page) {
     return new UrlConfig(keyword, articleType, sortType, page);
   }
 

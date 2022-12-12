@@ -2,11 +2,11 @@ package com.myservice.service;
 
 import com.myservice.domain.api.dto.ApiResponseSaveDto;
 import com.myservice.domain.article.entity.ApiComposedKey;
-import com.myservice.service.ApiResponseService;
+import com.myservice.domain.article.entity.ArticleType;
+import com.myservice.service.util.UrlConfig;
 import com.myservice.service.util.UrlList;
 import java.util.List;
 import java.util.UUID;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,36 +15,50 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 public class ArticleRequestFacade {
-  private final static int MAX_CNT = 10;
-  private final static int TYPE_BLOG = 1;
-  private final static int TYPE_NEWS = 2;
-  private final static int TYPE_CAFE = 3;
-
-  private final static boolean TYPE_SIM = true;
-  private final static boolean TYPE_DATE = false;
+  private static final int MAX_CNT = 10;
 
   private final ApiResponseService apiResponseService;
 
   private final BlogArticleService blogArticleService;
 
-  /**
-   * 블로그 아티클 데이터 크롤링
-   * @param userId
-   * @param keyword
-   * @param cnt
-   */
-  public void getBlogArticleSortBySim(UUID userId, String keyword, int cnt) {
+  private final CafeArticleService cafeArticleService;
 
-    if(cnt > MAX_CNT) return;
+  private final NewsArticleService newsArticleService;
 
-    int articleType = TYPE_BLOG;
-    boolean sortType = TYPE_SIM;
-    UrlList firstCollectionUrl = new UrlList(keyword, articleType, sortType, cnt);
+  public void getArticle( UUID userId ,UrlConfig urlConfig ) {
+
+    if(urlConfig.getPage() > MAX_CNT) return;
+    UrlList firstCollectionUrl = new UrlList( urlConfig );
 
     List<String> urlList = firstCollectionUrl.getUrlList();
-    List<ApiResponseSaveDto> dtoList = apiResponseService.getApiResponseSaveDtoList(userId, keyword, urlList);
+    List<ApiResponseSaveDto> dtoList
+        = apiResponseService.getApiResponseSaveDtoList(userId, urlConfig.getKeyword(), urlList);
     apiResponseService.saveApiResponse(dtoList);
 
+    articleByType(urlConfig.getArticleType() ,dtoList);
+  }
+
+  private void articleByType(ArticleType articleType,  List<ApiResponseSaveDto> dtoList) {
+    switch (articleType) {
+      case BLOG: {
+        getBlogArticle(dtoList);
+        break;
+      }
+      case CAFE: {
+        getCafeArticle(dtoList);
+        break;
+      }
+      case NEWS: {
+        getNewsArticle(dtoList);
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  }
+
+  private void getBlogArticle(List<ApiResponseSaveDto> dtoList) {
     for(ApiResponseSaveDto dto : dtoList){
       blogArticleService.saveBlogItemList(
           new ApiComposedKey(dto.getUserId(), dto.getKeyword(), dto.getRequestUrl())
@@ -53,5 +67,21 @@ public class ArticleRequestFacade {
     }
   }
 
+  private void getCafeArticle(List<ApiResponseSaveDto> dtoList) {
+    for(ApiResponseSaveDto dto : dtoList){
+      cafeArticleService.saveCafeItemList(
+          new ApiComposedKey(dto.getUserId(), dto.getKeyword(), dto.getRequestUrl())
+          ,dto.getItem()
+      );
+    }
+  }
 
+  private void getNewsArticle(List<ApiResponseSaveDto> dtoList) {
+    for(ApiResponseSaveDto dto : dtoList){
+      newsArticleService.saveNewsItemList(
+          new ApiComposedKey(dto.getUserId(), dto.getKeyword(), dto.getRequestUrl())
+          ,dto.getItem()
+      );
+    }
+  }
 }

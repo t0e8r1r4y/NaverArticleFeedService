@@ -19,7 +19,7 @@ public class NaverApiScheduler {
   public void scheduler() {
     UUID userId = UUID.randomUUID();
     String keyword = "슈룹";
-    articleRequestFacade.getBlogArticleSortBySim(userId,keyword,10);
+//    articleRequestFacade.getBlogArticleSortBySim(userId,keyword,10);
   }
 
 }
