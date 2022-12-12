@@ -2,7 +2,6 @@ package com.myservice.service.keyword;
 
 import com.myservice.domain.keyword.dto.KeyWordDto;
 import com.myservice.domain.keyword.repository.KeyWordRepository;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
