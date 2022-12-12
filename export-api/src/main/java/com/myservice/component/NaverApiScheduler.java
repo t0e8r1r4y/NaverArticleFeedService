@@ -4,8 +4,11 @@ import static com.myservice.domain.article.entity.ArticleType.BLOG;
 import static com.myservice.domain.article.entity.ArticleType.CAFE;
 import static com.myservice.domain.article.entity.SortType.SIM;
 
+import com.myservice.domain.keyword.dto.KeyWordDto;
 import com.myservice.service.api.facade.ArticleRequestFacade;
+import com.myservice.service.keyword.KeywordService;
 import com.myservice.service.util.UrlConfig;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,18 +21,21 @@ import org.springframework.stereotype.Component;
 public class NaverApiScheduler {
 
   private final ArticleRequestFacade articleRequestFacade;
-  @Scheduled(fixedRate = 5000)
+  private final KeywordService keywordService;
+  @Scheduled(cron = "0 */5 * * * *")
   public void blogScheduler() {
-    UUID userId = UUID.randomUUID();
-    String keyword = "슈룹";
-    articleRequestFacade.getArticle(userId, UrlConfig.of(keyword, BLOG, SIM, 10));
+    List<KeyWordDto> keyWordDtoList = keywordService.findKeyWordAll();
+    for(KeyWordDto dto : keyWordDtoList) {
+      articleRequestFacade.getArticle(dto.getUserId(), UrlConfig.of(dto.getKeyword(), BLOG, SIM, 10));
+    }
   }
 
-  @Scheduled(fixedRate = 7000)
+  @Scheduled(cron = "0 */8 * * * *")
   public void cafeScheduler() {
-    UUID userId = UUID.randomUUID();
-    String keyword = "부동산";
-    articleRequestFacade.getArticle(userId, UrlConfig.of(keyword, CAFE, SIM, 10));
+    List<KeyWordDto> keyWordDtoList = keywordService.findKeyWordAll();
+    for(KeyWordDto dto : keyWordDtoList) {
+      articleRequestFacade.getArticle(dto.getUserId(), UrlConfig.of(dto.getKeyword(), CAFE, SIM, 10));
+    }
   }
 
 }

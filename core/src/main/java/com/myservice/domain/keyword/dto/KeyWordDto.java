@@ -1,5 +1,6 @@
 package com.myservice.domain.keyword.dto;
 
+import com.myservice.domain.keyword.entity.KeyWord;
 import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -18,5 +19,11 @@ public class KeyWordDto {
     this.id = id;
     this.keyword = keyword;
     this.userId = userId;
+  }
+
+  public KeyWordDto(KeyWord keyWord){
+    this.id = keyWord.getId();
+    this.keyword = keyWord.getKeyword();
+    this.userId = keyWord.getCreatedBy();
   }
 }
